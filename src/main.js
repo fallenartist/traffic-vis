@@ -13,7 +13,7 @@ const plurals = new Intl.PluralRules('pl');
 const nodeById = new Map(nodes.map(n => [n.id, n]));
 const modeById = new Map(modes.map(m => [m.id, m]));
 let view = '3d', selectedMode = null, selectedNode = null;
-let bearingMode = DEFAULT_BEARING_MODE;
+const bearingMode = DEFAULT_BEARING_MODE;
 let batches = null, cameraReady = false, frameCount = 0;
 const camera = new THREE.Camera();
 const scene = new THREE.Scene();
@@ -304,12 +304,6 @@ document.querySelectorAll('[data-view]').forEach(button => button.addEventListen
   fitNetwork();
   update();
 }));
-document.querySelectorAll('[data-bearing]').forEach(button => button.addEventListener('click', () => {
-  bearingMode = button.dataset.bearing;
-  if (view === '3d' && trafficLayer.renderer) switchGeometry();
-  $('#tooltip').hidden = true;
-  update();
-}));
 $('#export').addEventListener('click', () => {
   const blob = new Blob([JSON.stringify({
     metadata: { estimated: true, method: 'Closed synthetic circulation: weighted forward branches and Trynek to Rynek return link; every node conserves every mode',
@@ -333,9 +327,7 @@ function update() {
     b.classList.toggle('dim', selectedMode !== null && selectedMode !== b.dataset.mode);
   });
   $('#location').value = selectedNode || '';
-  $('#bearing-controls').hidden = view !== '3d';
   $('#orbit-help').hidden = view !== '3d';
-  document.querySelectorAll('[data-bearing]').forEach(b => b.setAttribute('aria-pressed', b.dataset.bearing === bearingMode));
   $('#view-description').textContent = view === '3d'
     ? 'Wysokość wstęgi odpowiada natężeniu ruchu. Kolor oznacza rodzaj transportu.'
     : 'Zagęszczenie punktów odpowiada natężeniu ruchu. Proste połączenia schematyczne; bez tras GPS.';

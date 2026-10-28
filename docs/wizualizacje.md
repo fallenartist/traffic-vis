@@ -43,6 +43,8 @@ Krzywe przedstawiają schematyczne połączenia między lokalizacjami. **Nie odw
 
 ### Dwa sposoby wyznaczania kierunków
 
+Interfejs udostępnia wyłącznie wybór widoku 3D lub 2D. Wstęgi korzystają automatycznie z rozłącznych kierunków opisanych poniżej. Alternatywny tryb wspólnej osi pozostaje w kodzie, bez przełącznika w panelu bocznym.
+
 **Do celu 45° / auto — tryb domyślny.** Każde skierowane połączenie otrzymuje przy danym punkcie osobny kierunek. Przydział uwzględnia napływ i odpływ razem, dzięki czemu nie zajmują przypadkowo tego samego kierunku. Cztery kolory należące do jednego połączenia pozostają razem; nie są traktowane jako cztery osobne kierunki.
 
 Algorytm dobiera wolne kierunki tak, aby zminimalizować sumę kwadratów odchyleń kątowych od położenia pozostałych końców połączeń. Gdy najbliższy kierunek jest już zajęty, inne połączenie otrzymuje sąsiednią wolną pozycję. Wynik jest niezależny od kolejności rekordów danych.
