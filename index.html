@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#111922" />
+    <title>Analiza ruchu w Gliwicach</title>
+  </head>
+  <body>
+    <main class="app">
+      <aside class="sidebar">
+        <header><h1>Analiza ruchu w Gliwicach</h1></header>
+        <section>
+          <div class="section-label">Widok</div>
+          <div class="segmented" aria-label="Widok mapy"><button data-view="3d" aria-pressed="true">Wstęgi 3D</button><button data-view="2d" aria-pressed="false">Przepływy 2D</button></div>
+          <div id="bearing-controls"><div class="section-label">Kierunki wstęg</div><div class="segmented" aria-label="Kierunki wstęg"><button data-bearing="shared" aria-pressed="false">Wspólna oś</button><button data-bearing="snapped" aria-pressed="true" title="Osobne kierunki co 45°; przy większej liczbie połączeń co 30° lub 15°.">Do celu 45° / auto</button></div></div>
+          <button id="fit" class="secondary-button">Pokaż całą sieć</button>
+          <div class="map-help"><p>Przeciągnij: przesuwanie · kółko: zoom.</p><p id="orbit-help"><kbd>Ctrl</kbd> + przeciągnięcie lub przeciągnięcie prawym przyciskiem: obrót i nachylenie mapy.</p><p>Najedź na przepływ: wartości. Kliknij nazwę punktu: napływ i odpływ.</p></div>
+        </section>
+        <section>
+          <div class="section-heading"><div class="section-label">Rodzaj ruchu</div><button id="clear" class="text-button">Pokaż wszystko</button></div>
+          <div id="modes"></div>
+        </section>
+        <section>
+          <label class="section-label" for="location">Lokalizacja</label>
+          <select id="location"><option value="">Cała sieć</option></select><div id="details"></div>
+        </section>
+        <details class="flow-table"><summary>Połączenia <span id="connection-count"></span></summary><div class="table-scroll"><table><thead><tr><th>Skąd → dokąd</th><th>Rodzaj</th><th>Liczba</th></tr></thead><tbody id="flow-rows"></tbody></table></div></details>
+        <details class="data-notes"><summary>Dane i skala</summary><p id="view-description" class="muted"></p><p id="scale-text" class="muted"></p><p id="elevation-note" class="muted"></p><p class="muted">Dane przykładowe. Napływ = odpływ w każdym punkcie i rodzaju ruchu. Sumy dotyczą połączeń, nie unikalnych podróży. Okres pomiaru nieokreślony.</p><button id="export" class="text-button">Eksportuj JSON</button></details>
+        <div id="status" role="status">Ładowanie mapy…</div>
+      </aside>
+      <div class="map-area">
+        <div id="map" aria-label="Mapa ruchu w Gliwicach"></div>
+        <div id="tooltip" role="tooltip" hidden></div>
+      </div>
+    </main>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
