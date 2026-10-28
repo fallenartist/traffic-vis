@@ -207,7 +207,7 @@ export function buildNodeGuides(flows, points) {
   }
   const guides = new THREE.LineSegments(new THREE.BufferGeometry().setAttribute('position',
     new THREE.Float32BufferAttribute(vertices, 3)),
-  new THREE.LineBasicMaterial({ color: 0xe9f0f5, transparent: true, opacity: 0.7, depthTest: false, depthWrite: false }));
+  new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.95, depthTest: false, depthWrite: false }));
   guides.userData.stackHeights = vertices.filter((_, i) => i % 6 === 5);
   guides.userData.nodeIndices = new Map([...points.keys()].map((id, index) => [id, index]));
   return guides;
