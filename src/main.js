@@ -5,6 +5,7 @@ import { nodes, modes, flows, summarize, TRAFFIC_MULTIPLIER } from './data.js';
 import { buildBatches, buildNodeGuides, elevateNodeGuides, mastTipHeight, recolor, HEIGHT_SCALE, DEFAULT_BEARING_MODE } from './geometry.js';
 import { ribbonElevation, MIN_RIBBON_ELEVATION } from './elevation.js';
 import { buildTrajectoryBatches, trajectoryCenter, TRAJECTORY_POINT_SIZE, POINTS_PER_MOVEMENT } from './trajectories.js';
+import { geometryFitPoints, fitPerspectivePoints } from './camera-fit.js';
 import './style.css';
 
 const $ = selector => document.querySelector(selector);
@@ -15,6 +16,7 @@ const modeById = new Map(modes.map(m => [m.id, m]));
 let view = '3d', selectedMode = null, selectedNode = null;
 const bearingMode = DEFAULT_BEARING_MODE;
 let batches = null, cameraReady = false, frameCount = 0;
+let autoFramed = true;
 const camera = new THREE.Camera();
 const scene = new THREE.Scene();
 const projection = new THREE.Matrix4();
@@ -154,16 +156,54 @@ function updateBuildingClearance() {
   elevateNodeGuides(nodeGuides, baseElevation);
   updateMarkerAltitudes();
   $('#elevation-note').textContent = `Poziom wstęg: ${format.format(baseElevation)} m · co najmniej 20 m nad rozpoznanymi budynkami`;
+  if (autoFramed) fitNetwork(false);
   map.triggerRepaint();
 }
 
 function fitNetwork(animate = true) {
   if (!map) return;
+  autoFramed = true;
+  const duration = animate && !window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 650 : 0;
+  if (view === '3d' && batches) {
+    const container = map.getContainer(), width = container.clientWidth, height = container.clientHeight;
+    if (!width || !height) return;
+    const before = { center: map.getCenter(), zoom: map.getZoom(), pitch: map.getPitch(),
+      bearing: map.getBearing(), padding: map.getPadding() };
+    const current = map.getFreeCameraOptions();
+    // Recover the live focal length from the public camera position and zoom,
+    // avoiding assumptions about Mapbox's field of view or private transforms.
+    const ground = mapboxgl.MercatorCoordinate.fromLngLat(before.center,
+      map.queryTerrainElevation(before.center) ?? 0);
+    const focalLength = (current.position.z - ground.z) * 512 * 2 ** before.zoom /
+      Math.cos(before.pitch * Math.PI / 180);
+    const target = new mapboxgl.FreeCameraOptions();
+    target.setPitchBearing(45, 0);
+    const samples = geometryFitPoints([...batches, nodeGuides]);
+    for (const node of nodes) {
+      const label = markers.get(node.id)?.getElement();
+      const point = points.get(node.id);
+      samples.push({ x: point.x, y: point.y, z: mastTipHeight(nodeGuides, node.id, baseElevation),
+        left: label ? label.offsetWidth / 2 : 70, right: label ? label.offsetWidth / 2 : 70,
+        top: (label?.offsetHeight || 25) + 3 });
+    }
+    const fit = fitPerspectivePoints(samples, { width, height, focalLength, orientation: target.orientation,
+      padding: Math.min(36, Math.min(width, height) * 0.07) });
+    target.position = new mapboxgl.MercatorCoordinate(origin.x + fit.position.x * units,
+      origin.y + fit.position.y * units, fit.position.z * units);
+    map.stop();
+    map.setPadding({ top: 0, bottom: 0, left: 0, right: 0 });
+    map.setFreeCameraOptions(target);
+    if (duration) {
+      const fitted = { center: map.getCenter(), zoom: map.getZoom(), pitch: map.getPitch(), bearing: map.getBearing(),
+        padding: { top: 0, bottom: 0, left: 0, right: 0 } };
+      map.jumpTo(before);
+      map.easeTo({ ...fitted, duration });
+    }
+    return;
+  }
   const bounds = new mapboxgl.LngLatBounds();
   nodes.forEach(n => bounds.extend(n.coords));
-  map.fitBounds(bounds, { padding: { top: view === '3d' ? 200 : 65, bottom: view === '3d' ? 140 : 65, left: 65, right: 65 },
-    pitch: view === '3d' ? 45 : 0, bearing: 0,
-    duration: animate && !window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 650 : 0 });
+  map.fitBounds(bounds, { padding: 65, pitch: 0, bearing: 0, retainPadding: false, duration });
 }
 
 if (map) {
@@ -192,10 +232,14 @@ if (map) {
       markers.set(node.id, marker);
     }
     if (!tileError) $('#status').textContent = '';
-    fitNetwork(false);
     update();
+    fitNetwork(false);
   });
-  map.on('movestart', () => { $('#tooltip').hidden = true; });
+  map.on('movestart', event => {
+    $('#tooltip').hidden = true;
+    if (event.originalEvent) autoFramed = false;
+  });
+  map.on('resize', () => { if (autoFramed && batches) fitNetwork(false); });
   // Hover picking is limited to one raycast per animation frame, and only
   // happens while a pointer moves. It never schedules a render loop.
   let pendingHover = null, hoverFrame = null;
