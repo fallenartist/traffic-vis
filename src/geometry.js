@@ -186,7 +186,7 @@ export function buildBatches(flows, points, bearingMode = DEFAULT_BEARING_MODE) 
     geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
     geometry.setAttribute('color', new THREE.Float32BufferAttribute(new Float32Array(positions.length / 3 * 4), 4));
     const material = new THREE.MeshBasicMaterial({ vertexColors: true, side: THREE.DoubleSide,
-      transparent: true, opacity: 1, depthWrite: false });
+      transparent: true, opacity: 1, depthTest: false, depthWrite: false });
     const mesh = new THREE.Mesh(geometry, material);
     mesh.frustumCulled = false;
     mesh.userData = { mode, ranges, faces, activeOpacity: 0.87 };
@@ -207,7 +207,7 @@ export function buildNodeGuides(flows, points) {
   }
   const guides = new THREE.LineSegments(new THREE.BufferGeometry().setAttribute('position',
     new THREE.Float32BufferAttribute(vertices, 3)),
-  new THREE.LineBasicMaterial({ color: 0xe9f0f5, transparent: true, opacity: 0.7, depthWrite: false }));
+  new THREE.LineBasicMaterial({ color: 0xe9f0f5, transparent: true, opacity: 0.7, depthTest: false, depthWrite: false }));
   guides.userData.stackHeights = vertices.filter((_, i) => i % 6 === 5);
   guides.userData.nodeIndices = new Map([...points.keys()].map((id, index) => [id, index]));
   return guides;

@@ -65,7 +65,10 @@ try {
 }
 
 const trafficLayer = {
-  id: 'traffic-ribbons', type: 'custom', renderingMode: '3d',
+  // Keep the geographic 3D projection, but composite after basemap content.
+  // A shared-depth 3D layer makes Standard defer some numerical labels until
+  // after our draw. An overlay avoids that redraw covering the traffic.
+  id: 'traffic-ribbons', type: 'custom', renderingMode: '2d',
   onAdd(_map, gl) {
     this.renderer = new THREE.WebGLRenderer({ canvas: _map.getCanvas(), context: gl, antialias: true });
     this.renderer.autoClear = false;
