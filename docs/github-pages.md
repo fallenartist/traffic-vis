@@ -16,7 +16,7 @@ The application is a static Vite build: Mapbox and Three.js run in the browser, 
 4. Ensure the token's allowed URLs include the actual GitHub Pages site URL (and your custom domain if applicable). Test map loading from that public URL. Mapbox access and usage remain governed by the Mapbox account and plan; GitHub Pages supplies the static hosting.
 5. Push to `main` or run **Deploy GitHub Pages** manually. The workflow's deployment output provides the public URL.
 
-Target repository: `https://github.com/fallenartist/traffic-vis`. Expected Pages URL: `https://fallenartist.github.io/traffic-vis/`. The production token must allow the latter URL in Mapbox. Review the repository Actions tab and Pages settings for the latest deployment status.
+Target repository: `https://github.com/fallenartist/traffic-vis`. Live Pages URL: `https://fallenartist.github.io/traffic-vis/`. The production token must allow `https://fallenartist.github.io` in Mapbox. Deployment succeeded; HTML, JavaScript, and CSS were verified over HTTPS. Browser map rendering still depends on the token's Mapbox domain/style access. Review the repository Actions tab and Pages settings for the latest deployment status.
 
 The eight historical experiments have been removed from `public/` and preserved in ignored `legacy-local/`. They and their old tokens are not uploaded or deployed. `dist/` is build output and is recreated; it is not the long-term copy of the experiments. `.env.local`, `dist/`, and the local archive are excluded by `.gitignore`.
 

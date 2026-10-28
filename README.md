@@ -83,7 +83,7 @@ These are synthetic movement-density traces, not GPS observations or road-follow
 
 ## GitHub Pages
 
-This client-only app can be hosted on GitHub Pages. Relative build asset paths and a pinned GitHub Actions deployment workflow are configured for the `fallenartist/traffic-vis` repository. See [docs/github-pages.md](docs/github-pages.md) for repository settings, Mapbox URL access, and deployment steps. The expected Pages URL is `https://fallenartist.github.io/traffic-vis/`; workflow runs and Pages settings determine deployment status.
+This client-only app can be hosted on GitHub Pages. Relative build asset paths and a pinned GitHub Actions deployment workflow are configured for the `fallenartist/traffic-vis` repository. See [docs/github-pages.md](docs/github-pages.md) for repository settings, Mapbox URL access, and deployment steps. Live site: [fallenartist.github.io/traffic-vis](https://fallenartist.github.io/traffic-vis/). Repository: [fallenartist/traffic-vis](https://github.com/fallenartist/traffic-vis). The Pages deployment has succeeded; pushes to `main` deploy automatically. In Mapbox, allow `https://fallenartist.github.io` for the production browser token.
 
 ## Verification
 
@@ -102,7 +102,7 @@ Twenty-one automated tests cover:
 
 The previous strict curve comparison to the original experiment has been replaced by bearing-specific tests because the new shared-axis and snapped-angle layouts intentionally change the plan curves. The original HTML files remain unchanged in the ignored local archive.
 
-Production compilation validates the installed module imports and bundle entry. A production artifact check verified relative JS/CSS URLs resolve under a GitHub Pages repository subpath. Source/HTML checks verified the UI element references and single-title structure. The Pages workflow has not been run on GitHub. A separate static geometry rendering was inspected. Live browser visual QA and GPU/FPS measurements remain unverified because no connected browser was available in the computer-use environment.
+Production compilation validates the installed module imports and bundle entry. A production artifact check verified relative JS/CSS URLs resolve under a GitHub Pages repository subpath. Source/HTML checks verified the UI element references and single-title structure. The Pages workflow passed on GitHub, and the public HTML, JavaScript, and CSS returned HTTP 200. The legacy experiment URL returned HTTP 404. An audit verified no token in public source and confirmed its authorized injection into the deployed browser build. A separate static geometry rendering was inspected. Live browser visual QA and GPU/FPS measurements remain unverified because no connected browser was available in the computer-use environment.
 
 Official references:
 
