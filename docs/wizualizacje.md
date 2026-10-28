@@ -17,9 +17,9 @@ Sieć obejmuje siedem lokalizacji, jedenaście skierowanych połączeń oraz 44 
 
 ### Zamknięty obieg
 
-W każdym punkcie napływ jest równy odpływowi dla każdego rodzaju ruchu. Dotyczy to również Rynku i Trynku. Bilans w Rynku i Trynku wynosi po 1000 samochodów, 500 autobusów, 300 rowerów i 200 pieszych na wejściu oraz na wyjściu.
+W każdym punkcie napływ jest równy odpływowi dla każdego rodzaju ruchu.
 
-Wartości rozdzielane są między kolejne połączenia proporcjonalnie do wag zapisanych przy lokalizacjach. Zaokrąglanie metodą największych reszt zachowuje całkowite liczby oraz ich sumy. Dodatkowe połączenie **Trynek → Rynek** zamyka obieg, dostarczając do Rynku dokładnie tyle ruchu, ile z niego odpływa. Wygenerowany zbiór przechodzi kontrolę zgodności napływu i odpływu we wszystkich punktach.
+Wartości rozdzielane są między kolejne połączenia proporcjonalnie do wag zapisanych przy lokalizacjach. Zaokrąglanie metodą największych reszt zachowuje całkowite liczby oraz ich sumy. Wygenerowany zbiór przechodzi kontrolę zgodności napływu i odpływu we wszystkich punktach.
 
 Sumy dla całej sieci obejmują przemieszczenia na poszczególnych połączeniach. Nie są liczbą unikalnych podróży: przejazd przez kilka połączeń jest uwzględniony na każdym z nich. Także zamknięcie obiegu jest elementem modelu demonstracyjnego, a nie informacją o rzeczywistych trasach mieszkańców.
 
@@ -27,7 +27,7 @@ Sumy dla całej sieci obejmują przemieszczenia na poszczególnych połączeniac
 
 ### Wysokość i układ kolorów
 
-Wysokość wstęgi jest proporcjonalna do wartości przepływu. Wszystkie połączenia korzystają ze wspólnej skali: **jedna jednostka przepływu odpowiada 0,6 m wysokości**, czyli 100 jednostek zajmuje 60 m. To umowna skala wizualizacji, a nie fizyczna wysokość ruchu nad miastem.
+Wysokość wstęgi jest proporcjonalna do wartości przepływu.
 
 Każdy rodzaj transportu zajmuje w danym punkcie jeden wspólny przedział wysokości. Przedziały ułożone są kolejno: samochody, autobusy, rowery, piesi. Napływ i odpływ tego samego rodzaju ruchu mają w punkcie takie same granice wysokości.
 
@@ -43,7 +43,7 @@ Krzywe przedstawiają schematyczne połączenia między lokalizacjami. **Nie odw
 
 ### Dwa sposoby wyznaczania kierunków
 
-Interfejs udostępnia wyłącznie wybór widoku 3D lub 2D. Wstęgi korzystają automatycznie z rozłącznych kierunków opisanych poniżej. Alternatywny tryb wspólnej osi pozostaje w kodzie, bez przełącznika w panelu bocznym.
+Interfejs udostępnia wybór widoku 3D lub 2D. Wstęgi korzystają automatycznie z rozłącznych kierunków opisanych poniżej. Alternatywny tryb wspólnej osi pozostaje w kodzie, bez przełącznika w panelu bocznym.
 
 **Do celu 45° / auto — tryb domyślny.** Każde skierowane połączenie otrzymuje przy danym punkcie osobny kierunek. Przydział uwzględnia napływ i odpływ razem, dzięki czemu nie zajmują przypadkowo tego samego kierunku. Cztery kolory należące do jednego połączenia pozostają razem; nie są traktowane jako cztery osobne kierunki.
 

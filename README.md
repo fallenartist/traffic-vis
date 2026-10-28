@@ -9,7 +9,7 @@ Dostępne widoki:
 
 Panel boczny pozwala wybierać rodzaj transportu i lokalizację, porównywać napływ z odpływem oraz eksportować dane.
 
-Dane są przykładowe i nie pochodzą z rzeczywistych pomiarów.
+Punkty na mapie są przyblione, dane są przykładowe i nie pochodzą z rzeczywistych pomiarów.
 
 [Otwórz aplikację](https://fallenartist.github.io/traffic-vis/)
 
