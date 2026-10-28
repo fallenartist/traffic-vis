@@ -12,3 +12,5 @@ Panel boczny pozwala wybierać rodzaj transportu i lokalizację, porównywać na
 Dane są przykładowe i nie pochodzą z rzeczywistych pomiarów.
 
 [Otwórz aplikację](https://fallenartist.github.io/traffic-vis/)
+
+[Szczegółowy opis wizualizacji](docs/wizualizacje.md)
